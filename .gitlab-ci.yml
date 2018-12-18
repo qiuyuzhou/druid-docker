@@ -1,0 +1,16 @@
+stages:
+  - build
+
+build-img:
+  stage: buld
+  tags:
+    - docker-builder
+  only:
+    - master
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.git.shundaojia.com
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE:0.12.3 -t $CI_REGISTRY_IMAGE:latest 0.12.3/
+    - docker push $CI_REGISTRY_IMAGE:0.12.3
+    - docker push $CI_REGISTRY_IMAGE:latest
+
